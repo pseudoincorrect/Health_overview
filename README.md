@@ -20,21 +20,25 @@ This system does not replace the examination of a physician and simply provide e
 <br>
 <br>
 
-## Disclamer
-This project is not recommended for a new design starting point. We then moved to a LoraWan architecture for improved security and deployment ease. For an improved PCB design usable in a mesh network based on NRF52, <a href="https://github.com/pseudoincorrect/smart_mask/tree/master/PCB">this project</a> is more recent and has been greatly improved. 
-<br>
-This project is kept as an archive (not maintened anymore), initialy on 5 differents private repositories, they have been merged for convenience and public access.
-<br>
-<br>
-
 # Details
-This project is Split into 5 parts:
+This project, being a full IoT stack system is split into 5 parts:
 - Printed Circuit Board
 - 3 Embedded Firmware (for mesh nodes, mesh relays and mesh gateway)
 - Python application for the gateway 
 - Backend stack to be deployed on a cloud provider 
 - Frontend Web application
 
+<br>
+
+## Disclamers
+This project is not recommended for a new design starting point. We then moved to a LoraWan architecture for improved security and deployment ease. For an improved PCB design usable in a mesh network based on NRF52, <a href="https://github.com/pseudoincorrect/smart_mask/tree/master/PCB">this project</a> is more recent and has been greatly improved. 
+<br>
+<br>
+Also, being one of my "junior projects", its code is far from perfect. Still, the demonstration was a success and all features were working properly, that enabled us to move on a next iteration with improved performances, reliability and security.
+<br>
+<br>
+This project is kept as an archive (not maintened anymore), initialy on 5 differents private repositories, they have been merged for convenience and public access.
+<br>
 <br>
 
 # Printed Circuit Board
@@ -64,8 +68,7 @@ Vital signs Data where gathered on the smartmatches (1), then data packets where
 <br><br> Architecture of Health Overview
 </p>
 
-<br>
-<br>
+
 The wristwatch Overview_firmware/ folder contain the source code for the 3 systems (smartwatches, relays and gateway). each system has one folder for its specific code and share a common/ folder for system independant code.
 <br>
 <br>
@@ -90,6 +93,28 @@ The gateway is composed of 2 devices: a NRF52 development kit and a raspberry pi
 
 # Backend stack to be deployed on a cloud provider 
 
+The backend takes care of user management, devices management and health data storage.
+It follow the MEAN stack (MongoDB, Express, Angular, NodeJs). When the application was active, it was deployed on Heroku. We then moved to a dockerised application on the next iteration of this project.
 
+<br>
+<p align="center">
+<img align="center" width=50% src="Support/readme_assets/mean_stack.png">
+<br><br> Stack used for this project
+</p>
+
+<br>
 
 # Frontend Web application
+Data presentation was realized with an Angular single page application. Users could login and display the sensor of their group as well as displaying a detailed version of each smartwatch. Notification where displayed depending on the status of each sensor and notification could be sent to each wristwatch. The notification service was made with socketIo while all the data and login was made with HTTP.
+ 
+<br>
+
+<p align="center">
+<img align="center" width=40% src="Support/readme_assets/gui1.png">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img align="center" width=28% src="Support/readme_assets/gui2.png">
+<br>
+<br>Data from these screenshot are simulated to avoid sharing health data
+</p>
+
+#
