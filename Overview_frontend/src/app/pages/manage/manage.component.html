@@ -1,0 +1,16 @@
+<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutGap="10px grid">
+  <div *ngFor="let empData of this.employeesService.employees.employees; let i=index">
+    <div *ngIf="empData">
+      <mat-card class="cardManage">
+        <mat-card-content fxLayout="row wrap" fxLayoutAlign="center center"> 
+          <button mat-raised-button color="primary"> Notifiy </button> &nbsp;&nbsp;
+          <span>
+            <span *ngIf="!empData.name"> {{ empData.nodeAddress }} </span>
+            <span> {{empData.name}} </span> &nbsp;&nbsp;
+            <svg-icon class="logo" src="../../../assets/edit.svg" [svgStyle]="{'width.px':15, 'height.px':15,'fill':'grey'}" (click)="openDialogEditName(empData.nodeAddress)"> </svg-icon>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </div> 
+  </div >
+</div >

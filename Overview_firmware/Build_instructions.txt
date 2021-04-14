@@ -1,0 +1,621 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+//                  Project Set-up
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+this symbol $> indicate our computer prompt, thus we can copy all the text after it directly to our command line (terminal)
+    for instance with 
+        $> make clean
+    we write "make clean" to our terminal.
+
+For these instructions we will assume: 
+    That the user has a project folder at the location:
+        ~/Documents/thread_project_folder
+    Has the NRF SDK for thread (that we will call simply the "SDK") at the location: 
+        ~/Documents/thread_project_folder/thread_sdk_folder
+        The SDK is the sources/libraries provided by Nordic that WE SHOULD NOT EDIT AND USE AS IT IS.
+    Has the application folder (source code written by the user) ath the location:
+        ~/Documents/thread_project_folder/thread_app_folder
+
+    Thus, let's get these files
+
+    Download the NRF SKD for thread:
+        Navigate to https://www.nordicsemi.com/Software-and-Tools/Software/nRF5-SDK-for-Thread-and-Zigbee
+        Then download the SDK (Software Development Kit) which is a collection of source code and examples for the NRF52 device.
+        Download the version 2.0.0 for compatibility (we can try with he latest version later on)
+
+    Create the project folder:
+        $> mkdir  ~/Documents/thread_project_folder
+
+    Add the SDK to this folder NRF SDK for thread there
+        go to download if you download the 
+            $> cd ~/Downloads
+        unzip the SDK
+            $> unzip the_sdk_zip_file_we_just_downloaded.zip
+        move the unziped file to the project folder and rename it to thread_sdk_folder (for the sake of these instruction)
+            $> mv the_unziped_folder ~/Documents/thread_project_folder/thread_sdk_folder
+
+    clone the application repository to the project folder
+        $> cd ~/Documents/thread_project_folder
+        $> git clone https://the-project-repository-path.git
+        This repository will contain the source code for the Node, Router and gateway
+
+    We should now have the bellow file architecture at the location: ~/Documents
+
+    thread_project_folder
+    |
+    |---thread_sdk_folder
+    |   |
+    |   |---Source code of the SDK
+    |   |---Lots of folders and files 
+    |   |---including (components, config, documentation, etc...)
+    |
+    |---thread_app_folder
+        |
+        |---common
+        |---gateway
+        |---node
+        |---router
+        |---test_ceedling
+        |---Readme
+        |---This file
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+//                  SIMPLE VERSION with Segger Embedded Studio (SES)
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Prerequisite:
+    SES installed: 
+        Navigate to https://www.segger.com/downloads/embedded-studio
+        Then to Embedded Studio for ARM
+        Then download the latest version according to your architecture and operating system
+
+SES organise a project with a project file with the following extension: ".emProject".
+In order to be able to compile our code correctly, we need to "link it" according to our "SDK".
+For each of the 3 projects (node, router and gateway)
+    - open the .emProject file with a text editor (for instance node.emProject for node project)
+    - Navigate to the bottom of the file
+    - Navigate to the <configuration>
+    - change the SDK_ROOT macro to the path to the "SDK" installed on your computer
+        for instance: 
+        if currently on node.emProject SDK_ROOT=../../../../../../nrf_thread_sdk 
+        and on your computer your "SDK" is located in : 
+        ~/Documents/thread_project_folder/nrf_zigbee_sdk_v2.0.0 modif
+        modify to SDK_ROOT=~/Documents/thread_project_folder/nrf_zigbee_sdk_v2.0.0
+    - change the SDK_ROOT macro for the 2 <configuration> of the project file: 
+        -Release
+        -Debug
+
+Now, we can open Segger Embedded Studio (SES) then file->open solution then navigate to you .emProject file and open it. 
+(either node.emProject, gateway.emProject or router.emProject)
+
+On the project explorer pane: right click on the "Project" (example "Project Node") to bring the contextual menu and click on build. 
+let the compiler do its job
+if errors occur, check the .emProject file with a text editor and be sure that the SDK_ROOT macro and the SDK version (here v2.0.0) is correct. 
+
+Assuming that you have a Node Printed Circuit Board (PCB) connect to you computer via USB, 
+click on target->Download "your current project" (which can be node, router or gateway)
+The above will download the program to the microcontroller.
+
+If you want to debug or read the serial print to be sure that your system is working, click on Debug->Go
+then click again on Debug->Go
+You should see in the Debug Terminal pane the output of the running program.
+If you cannot see the Debut Terminal pane, click on View->Debug Terminal
+
+For most of these "click on something" shortcut exist on SES (either keyboard shortcut or small icon shortcut). 
+you can find more about these either online or by clicking on Help->Preferences->keyboard 
+(use the Search box on the top right corner of the window).
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+//                 ADVANCED version with ARM-GCC, JLink and VScode
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+Segger Embedded Studio (SES) is a powerfull tool that allows use to develop, flash and debug with a all-in-one solution, 
+SES being an Integrated Development Environement (IDE).
+We could only use it if we wanted and this would be totally fine.
+However if we need to test our code and work with Test Driven Development, SES will not be able to help us that much. 
+By choosing open source tools, we can have access to a total control of our code, debuging and test.
+
+But before going any further here is a summay of the pros and cons using either SES or Open Sources tools.
+
+SES:
+    PROS: 
+        + Very fast project setup (we just need to open a segger project)
+        + Tools that have been proven and test to work together 
+        + All tools for programming, flashing and debuging in the same Software
+        + Possibility to modify the project option with a GUI rather than modifying directly the .emProject file
+        + VERY powerful code navigation (Goto Definition)
+        + Well supported by the Nordic team online (NordicDevZone)
+        + Powerfull debug tools
+    CONS: 
+        - We cannot properly test our code or do Test Driven Development
+        - The .emProject file is a bit clumsy to use and the GUI is even clumsier 
+        - The text editor cannot compete with others such as VIM, VScode, sublime, etc..
+        - We can only see the output of one system at the time
+        - It is not open source
+        - It sort of work as black box, meaning we do not know what happens in the guts of the software, for the compilation, debug, linking, etc...
+
+Open Sources (ARM-GCC, JLink and VScode)
+    PROS:
+        + Powerful text editor (we can use any text editor, here we choose VScode)
+        + Open Source
+        + We can see as many output console as we want (practical when we want to seen two NRF52 communication together)
+        + We understand SO MUCH better what we are doing, with the compilation process, debuging, how all tools work together
+        + We can do Test Driven Development and test on Hosting machine (run and test the microcontroller pogram directly on your computer which is faster by an order of magnitudes)
+        + We can commercialize with it at no charges
+        + We have access to better software automation tool (such as VScode task and other script that we can write)
+        + we can use version control (git) more easily
+    CONS: 
+        - It takes considerably more time to understand each of the tools we use and how to set them up
+        - There is less support online
+        - the code navigation "might" less powerfull is not configured properly (in our case it is just as good as SES)
+        - All tools are kind of separated, meaning that you have to download them separately, install them, configure, etc...
+        - Once again you need to really understand what you are doing to have a chance to make the system work
+        - Limited debug tools
+
+All in all, there is no perfect Tool, it is always a tradeoff between simplicity of use and availables features, which once properly selected, 
+can lead to shorter time to production and better software maintenance.
+
+On personal point, we use BOTH of the tools (SES and Open Sources) on a daily basis as they complement each others. 
+This is why we maintain both project. Although it is easier to work on a project with several persons with SES 
+(since we all use the same tools and config) it is much preferable to use a nicer text editor such a VScode if we spend 8 hours per day coding. 
+Well, it is matter of taste.
+
+This webpage might interest us. This is the starting point of our configuration although we will go a bit further with test driven development, 
+Jlink set up and VScode task configuration.
+https://electronut.in/vscode-nrf52-dev/
+
+We will assume that the user has a Unix like system (Mac OS or a flavor of linux).
+Windows user would need to adapt especially for the make, ARM-GCC and LLDB parts.
+
+Prerequisites:
+    for ALL (MAC and Linux):
+        VScode (Text editor)
+            https://code.visualstudio.com/download
+            with the following extension: 
+                - ARM (for ARM assembly text highlight)
+                - C/C++  (intellisence, debuging, code browsing)
+                - Cortex-Debug 
+                
+        ARM-GCC   (Compiler for ARM architecture)
+            https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads (Mac OS X 64-bit)
+
+        nRF5_Command_Line_Tools (nrf command line tools)
+            https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF5-Command-Line-Tools
+            select macOS (bottom right)
+
+        SEGGER Jlink and RTTviewer  (Hardware driver for the JLink hardware programmer/debugger)
+            https://www.segger.com/downloads/jlink (you need to create and account)
+            go to "J-Link Software and Documentation Pack" and click "click for downloads"
+
+    For MAC: 
+        make (build automation)
+            We need to install Xcode development tools that will include make and the standard headers
+            xcode-select --install
+
+        LLDB (debug, equivalent of gdb)
+            Without installing Xcode, Open "terminal", put "lldb" and press enter. 
+            You will be prompted to the installation.
+
+    For Linux:
+        make are already present (build automation)
+
+        GDB (Debugger)
+            the installation depend of your distribution, for a debian based one it can be: 
+            sudo apt-get install gdb
+            https://www.linuxquestions.org/questions/linux-newbie-8/install-gdb-in-linux-904831/
+            https://www.gnu.org/software/gdb/
+            
+
+SET UP 
+
+Here we will use a MAC OS environement, but for a linux environement, the process is extremely similar, 
+the only tool that will vary is the debuger (gdb for linux, lldb for mac), which will only change one element on the bellow instructions. 
+So, linux user, you can use these instructions.
+
+We assume that you successfully installed VScode, make, LLDB, JLink and ceedling.
+(Google will be usefull if you get stuck)
+ARM-GCC and nRF5_Command_Line_Tools installation will be discutted in a bit.
+
+(We assumere here that you have the initial file architecture described in the "Project Set-up" section)
+
+ARM-GCC and nRF5_Command_Line_Tools installation.
+    we can install these tools anywhere we want on our unix system.
+    however it can be easier for us to create a folder named "bin" in our user home in order to place there all program needed only by the current user. 
+    we will add these path to our PATH within our .bashrc file (or .bashprofile for mac users). 
+    if you are an experimented user, well, you will know where to place these binaries. 
+    for this section will install/extract ARM-GCC and nRF5_Command_Line_Tools in "~/bin"
+        $> mkdir ~/bin
+
+ARM-GCC installation:
+    Download the ziped file https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads (Mac OS X 64-bit)
+    Extract it to ~/bin
+        $> cd ~/Downloads
+        $> tar xvf the_arm_gcc_archive_we_just_downloaded.tar
+            You might get a folder with a name similar to "gcc-arm-none-eabi-7-2018-q2-update"
+        $> mv gcc-arm-none-eabi-7-2018-q2-update ~/Documents/bin/gcc-arm-none-eabi-7-2018-q2-update
+
+nRF5_Command_Line_Tools
+    Download the ziped file https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF5-Command-Line-Tools 
+    select your platform at the bottom right
+    Extract it to ~/bin/
+        $> cd ~/Downloads
+        $> tar xvf the_nRF_command_line_tools_archive_we_just_downloaded.tar
+            You might get a folder with a name similar to "nRF-Command-Line-Tools_9_8_1_OSX"
+        $> mv nRF-Command-Line-Tools_9_8_1_OSX ~/Documents/bin/nRF-Command-Line-Tools_9_8_1_OSX
+
+Now our ~/bin folder contains:
+    - gcc-arm-none-eabi-7-2018-q2-update	
+    - nRF-Command-Line-Tools_9_8_1_OSX
+
+Add these tools to our PATH:
+    On MAC OS:
+        export PATH="$PATH:/Applications/vscode.app/Contents/Resources/app/bin"
+        export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+        export PATH="$PATH:~/bin/gcc-arm-none-eabi-7-2018-q2-update/bin"
+        export PATH="$PATH:~/bin/nRF-Command-Line-Tools_9_8_1_OSX/nRF5_Command_Line_Tools"
+        REMARQ:
+            (You need to replace the "~/bin" to the path of YOUR OWN "bin" folder that you created above)
+            for the gcc-arm-none-eabi-7-2018-q2-update and nRF-Command-Line-Tools_9_8_1_OSX, 
+            adapt to whatever version of gcc-arm and nrf-command-line-tool your downloaded.
+
+You can test if you installed correctly these two tools and their path by running these two command:
+    
+    $> nrfjprog -v
+        that should output something like:
+            nrfjprog version: 9.8.1
+            JLinkARM.dll version: 6.34f
+    
+    $> arm-none-eabi-gcc -v
+        that should output something like:
+            Using built-in specs.
+            COLLECT_GCC=arm-none-eabi-gcc
+            ... and many other lines of info 
+
+
+Makefile.posix Edit to indicate ARM-GCC path:
+    in order to set up the project correctly with make, we will need to indicate where we placed our ARM-GCC tools (binaries).
+    this if your Project file is located at ~/Documents/thread_project_folder
+        $> cd ~/Documents/thread_project_folder/nrf_thread_sdk/components/toolchain/gcc
+        Edit the "Makefile.posix" file to indicate the ARM-GCC path 
+        in our case the content of Makefile.posix would be: 
+            GNU_INSTALL_ROOT := ~/bin/gcc-arm-none-eabi-7-2018-q2-update/bin/
+            GNU_VERSION := 7.3.1
+            GNU_PREFIX := arm-none-eabi
+
+Makefile (node, router and gateway) edit to indicate necessary paths:
+    in order for the compiler to link correctly our program we need to indicate him the path to the Sources
+    We will need to modify each of the three makefiles for the three projects: node, router and gateway.
+    Navigate to our node project:
+    which in our configuration is located to:
+        ~/Documents/thread_project_folder/thread_app_folder/node/armgcc
+
+    NODE PROJECT:
+        Edit the "Makefile" file with any text editor.
+        On the top of the file, we need to edit the following 3 macros: 
+            SDK_ROOT := /whatever/path/is/here/1
+            PROJ_DIR := /whatever/path/is/here/2
+            COMMON_DIR := /whatever/path/is/here/3
+            for SDK_ROOT macro, lets add the path to our SDK located at: 
+                ~/Documents/thread_project_folder/thread_sdk_folder
+            for PROJ_DIR macro, lets add the path to our project directory located at:
+                ~/Documents/thread_project_folder/thread_app_folder/node
+            for COMMON_DIR macro, lets add the path to our project directory located at:
+                ~/Documents/thread_project_folder/thread_app_folder/common
+            Which in the end give us:
+                SDK_ROOT := ~/Documents/thread_project_folder/thread_sdk_folder
+                PROJ_DIR := ~/Documents/thread_project_folder/thread_app_folder/node
+                COMMON_DIR := ~/Documents/thread_project_folder/thread_app_folder/common
+
+    ROUTER PROJECT:
+        same as above expect PROJ_DIR that will be:
+                PROJ_DIR := ~/Documents/thread_project_folder/thread_app_folder/router
+
+    GATEWAY PROJECT:
+        same as above expect PROJ_DIR that will be:
+                PROJ_DIR := ~/Documents/thread_project_folder/thread_app_folder/gateway
+
+Now we will try to make the system work with the command line tools
+    for the following we will use the GATEWAY project since it does not use a custom board
+    Navigate to our node projects folder and to the Makefile location:
+        $> ~/Documents/thread_project_folder/thread_app_folder/gateway/armgcc
+    Build the project
+        $> make clean
+        $> make
+    The compilation should end without warnings
+
+    Program the board 
+        We will need to plug the board to the debuger and the debuger to our PC through USB
+        The "_build/nrf52840_xxaa.hex" is the path to the binary file that will be downloaded to the NRF52 with the nrfjprog tools
+            $> nrfjprog -f nrf52 --program _build/nrf52840_xxaa.hex --sectorerase
+            $> nrfjprog -f nrf52 --reset
+
+    Use JLinkRTTClient to display the output of the NRF52 on a terminal
+        Open a new terminal window
+            $> JLinkExe --If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19013 -Speed 4000
+        We will keep the terminal that run the above command open and open a new terminal windows
+            $> JLinkRTTClient -rtttelnetport 19013
+        The first terminal act as the JLink server that will connect to the board
+        The second terminal is the clien that will display the output of the NRF52
+
+        if we want to connect to a particular JLINK debugger we can select it with it's serial number
+        in that case, replace the first terminal command 
+            $> JLinkExe -SelectEmuBySN 683207693 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19013 -Speed 4000
+            in the above command, our Debuger's serial number is 683207693
+        With this option we can connect several JLINK debuger at the same time.
+        We just need to ensure that the "RTTTelnetPort" is different for each of them
+        in our example we used the port 19013. if we want to open an other JLINK RTTclient for the debugger 683207793, we need to select another port (it could be 19014)
+            $> JLinkExe -SelectEmuBySN 683207793 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19014 -Speed 4000  
+            and connect a JLINK client with the following command
+            $> JLinkRTTClient -rtttelnetport 19014
+        We will have in this configuration (two JLINK debuger) 4 terminal windows (two per JLINK debuger, one for the client, one for the server)
+        
+    Make a slight modification to our GATEWAY code in order to change the output and verify that the compilation and flashing process work correctly.
+    in ~/Documents/thread_project_folder/thread_app_folder/gateway/main.c, in the main() function just above the while(1) loop, Add this line of code
+        SEGGER_RTT_printf(0, "We changed the code ! \n\r");
+
+    now we can check if the toolchain (compilation, flash, debug output) works correctly:
+        $> cd ~/Documents/thread_project_folder/thread_app_folder/gateway/armgcc
+        $> make
+        $> nrfjprog -f nrf52 --program _build/nrf52840_xxaa.hex --sectorerase
+        $> nrfjprog -f nrf52 --reset
+        in a new terminal window
+            $> JLinkExe --If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19013 -Speed 4000
+        in another new termial window
+            $> JLinkRTTClient -rtttelnetport 19013
+
+    We should see the "We changed the code !" message appearing on the PC screen.
+
+Now for the integration into VSCODE for debugging and automation
+    Open VScode 
+    Create a .vscode folder in our thread_app_folder located at ~/Documents/thread_project_folder/thread_app_folder
+    We will need to create three files for: 
+        - the debugger (launch.json)
+        - C/C++ intellisence (c_cpp_properties.json)
+        - task automation (task.json)
+        Open a terminal
+            $> cd ~/Documents/thread_project_folder/thread_app_folder
+            $> touch c_cpp_properties.json
+            $> touch launch.json
+            $> touch tasks.json
+        We created here the file manually, but vscode can create them for us this way
+            Command Palette [CMD + shift + P] : C/C++ Edit configuration
+            Command Palette [CMD + shift + P] : Debug: Open launch.json
+            Command Palette [CMD + shift + P] : Task: Configure task
+
+    c_cpp_properties.json
+        This file will indicate the extension C/C++ our browsing path for a powerful code navigation and linting
+        We need here to indicate where are all the files we use in our code.
+        for instance if we need the paths:
+            ~/Documents/thread_project_folder/thread_sdk_folder/integration/nrfx/legacy/nrf_drv_wdt.h
+            and
+            ~/Documents/thread_project_folder/thread_sdk_folder/components/libraries/log/nrf_log.h
+        Edit the c_cpp_properties.json file this way (especially "includePath" and "browse: path")
+        Add the include 
+            thus if we have "CFLAGS += -DUSE_APP_CONFIG" in our Makefile, we need to add "USE_APP_CONFIG" to the "include" section
+        Repeat both procedure for the all included files and compiler "define" of your Makefile
+
+        Content of c_cpp_properties.json:
+        {
+            "configurations": [
+                {
+                    "name": "Mac",
+                    "includePath": [
+                        "~/Documents/thread_project_folder/thread_sdk_folder/integration/nrfx/legacy/nrf_drv_wdt.h"
+                        "~/Documents/thread_project_folder/thread_sdk_folder/components/libraries/log/nrf_log.h"
+                    ],
+                    "defines": [
+                        USE_APP_CONFIG
+                    ],
+                    "macFrameworkPath": [
+                        "/System/Library/Frameworks",
+                        "/Library/Frameworks"
+                    ],
+                    "compilerPath": "/usr/bin/clang",
+                    "cStandard": "c11",
+                    "cppStandard": "c++17",
+                    "intelliSenseMode": "clang-x64",
+                    "browse": {
+                        "path": [
+                            "~/Documents/thread_project_folder/thread_sdk_folder/integration/nrfx/legacy/nrf_drv_wdt.h"
+                            "~/Documents/thread_project_folder/thread_sdk_folder/components/libraries/log/nrf_log.h"
+                        ],
+                        "limitSymbolsToIncludedHeaders": true,
+                        "databaseFilename": ""
+                    }
+                }
+            ],
+            "version": 4
+        }
+
+    In order to try if the extension is doing its job, try to navigate within your code with "Goto Definition".
+    If in some case, nothing happen, verify your "includePath", "browse path" and "defines" to be sure to include EVERY path of your Makefile "INC_FOLDERS"
+
+    launch.json
+    This file will indicate VScode how to interact between its debug features and GDB (or LLDB for MacOS)
+    This will allow us to step through the code of our 3 projects (Node, Router and Gateway) ONE project is run at the time.
+    We will also be able to place break point, see the stack call, the local and global variables and watch variables (90% of what we usually need for debugging embedded systems.
+    In this file we need to indicate the path to the executable of the project we wish to debug for instance:
+        If we want to debug the Node project. After build it, make will create an executable (a file that will be run on the NRF)
+        at the location "~/Documents/thread_project_folder/thread_app_folder/node/armgcc/_build/" named "nrf52840_xxaa.out" depending on how you named it on your Makefile.
+        We also need to indicate the "armToolchainPath" that we installed in the section ARM-GCC
+    In order to debug the Router and Gateway projects as well, we need to create two more configurations with the path to our Gateway executable and Router executable.
+    simply copy paste and edit the {block}  of the configurations array
+
+    Content of launch.json:
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Node Debug",
+                "cwd": "${workspaceRoot}",
+                "executable": "~/Documents/thread_project_folder/thread_app_folder/node/armgcc/_build/nrf52840_xxaa.out",
+                "request": "launch",
+                "type": "cortex-debug",
+                "servertype": "jlink",
+                "device": "nrf52",
+                "interface": "swd",
+                "ipAddress": null,
+                "armToolchainPath": "~/bin/gcc-arm-none-eabi-7-2018-q2-update/bin/",
+            },
+            {
+                same as above but edited for the Gateway project (just change the name and executable path)
+            },
+            {
+                same as above but edited for the Router project (just change the name and executable path)
+            }
+        ]
+    }
+
+    in order to test whether the debuging is working or not, we will first build the Node project with make.
+        $> cd ~/Documents/thread_project_folder/thread_app_folder/node/armgcc
+        $> make
+        the on vscode:
+            Go to the Debug Side bar Pane (the bug in the circle at the very left of Vscode)
+            on the Debug Side bar select Node Debug (with configuration selection box at the top)
+            click on the green triangle or click on the menu: Debug->Start debugging
+            play with the debugger.
+        if nothing happen, check that the executable is create and that the launch.json path point to it.
+        Check also that the ARM-GCC is correctly installed and pointed by the launch.json
+
+
+    task.json 
+
+    The task.json file will help us to automate several tasks such as "building the program", "flashing the NRF", 
+    "cleaning the build folder" and so on, without the need to  open a terminal, navigate to a location run some command, etc..
+    Instead with these "tasks" we can select a working directory, run either a script of few commands with or without argument.
+    This is very helpful when it comes to the automation of our workflow where we need to build, flash and test our program multiple times in row or tens of time per day.
+    The task.json file allows us for automating and running these process we will create with one stroke of a finger.
+
+    For instance, let's say that we would like to automate the build process so that we can build (compile and link our program) withing vscode witout the need to open a new terminal.
+    we will simply create a new task in the task.json file, 
+        - label it "node build"
+        - the working directory will be where the node project's makefile is located:
+            ~/Documents/thread_project_folder/thread_app_folder/node/armgcc
+        - we will run the command : $> make
+        - we add the argument "-j8 " (to $> make)
+
+    and now each time we would like to run this task (node build) we simply neede to open the command Palette and run the task "node buid".
+    Or we can assign a shortcut directly to this task for instance the key F7 to executable "node build" each time pressed.
+    In order to create more advanced tasks, we could create a task that will run a shell script to chain more command (if needed).
+
+    Content of task.json:
+    {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "node build",
+                "options": { "cwd": "~/Documents/thread_project_folder/thread_app_folder/node/armgcc" },
+                "type": "shell",
+                "command": "make",
+                "args": [ "-j8" ],
+                "presentation": { "reveal": "always", "clear": true },
+                "problemMatcher": []
+            }
+        ]
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+//                 TESTING with Ceedling
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+    
+
+There is no doubt that testing our code will add subsential benefit to the development process, more especially on the maintenance part of the code.
+To test our code in this manual, we will use Ceedling. It will allow us for rapidly set-up a test framework for our project. It uses, Unity
+(C testing libraries), Cmock (C mocking libraries) and Cexpection (C expection library), all these tools regrouped among a command line 
+interface (CLI) written in Ruby, named Ceedling. Ceedling has been develope by "Throw The Switch" :https://github.com/ThrowTheSwitch/Ceedling.
+We will not dig too deep into Code testing and Test Driven Development here, are they are plenty of usable resources.
+The most usefull one in regard to ceedling is this article written by Dimitry Frank: https://dmitryfrank.com/articles/unit_testing_embedded_c_applications
+and of course ceedling documentation included in each project created.
+
+Let's set Ceedling up !
+
+    Install Ceedling  (Test framework for C projects)
+        Ceedling is build with Ruby (programming language) and installed via "gem"
+            http://www.throwtheswitch.org/ceedling
+        if your system doest not have Ruby installed
+            for MAC:
+                $> brew install ruby
+            for Linux:
+                https://www.heatware.net/ruby-rails/how-to-install-rubygems-linux-ubuntu-10/
+        Then we install Ceedling
+            $> gem install ceedling
+
+Dimitry's article will offer us a comprehensive overview of Ceedling thus, reading it and practicing it would be a must before continuing.
+
+Most or the code we writte will include functions from the NRF SDK. Thus, when we try to test our code, it is extremely important for us
+to be able to mock the SDK function. A mock function is a function that will replace the one that will be only used during our test. For instance,
+we would like to test function1() that itself is calling function2(). However we do not want to actually compile and run function2() since, it can be
+slow to execute or because we want function2() to output a certain value only for this test. in this case, Cmock will create a function2_mock() that will
+be called during the test of function1(). We will thus have more control on our test since we can predict the output of function2_mock().
+
+Why detailing this ? Because the main challenge in testing our code with the NRF SDK, was to determine which function to mock and thus, which file to include.
+The SDK is extremely large (for an embedded system project) thus if we try to compile it completely for our test we will hit a wall. 
+This is mainly due to the fact that the SDK is made to be compiled with an ARM compiler for a cortex architecture, so, if we try to compile it with GCC as ceedling
+is doing, we will encounter thousands of compilation and linking error. Especially due to the fact that the SDK relies on static inlines and CPU architecture 
+specific code (#ifdef linux). thus we need to limit as much as we can the file from SDK to include in our test. 
+
+Moreover if we have the following predicates: 
+    file "a.c" that includes file "b.c" which includes "SDK_b.c"
+    file "a.c" uses a function from "SDK_b.c"
+
+with make and GCC, file "a.c" only need to include "b.c" (as "SDK_b.c" is included in it, as GCC see it)
+But when we try to test file "a.c" with a file "test_a.c" with Ceedling,
+    "test_a.c" should include "b.c" and "SDK_b.c" (countrary to GCC, for which only "b.c" would need to be included)
+
+Thus, when testing a file, put all DIRECT dependencies of this file as mocks
+(files which contain the function which are called in the tested file)
+(not only the file included in the tested file)
+
+For instance
+let's test file "a.c" with a test file called "test_a.c"
+"mock_b.c" and "mock_c.c" are the mock file for file "b.c" and "c.c"
+
+"a.c" use functions from file "b.c" and "c.c"
+however "a.c" only include "b.c" as "b.c" already include "c.c"
+Therefore, "test_a.c" must include "mock_b.c" and "mock_c.c" and not only "mock_b.c"
+
+Why ? 
+Because when Ceedling creates a mock file, it will not create mock for all file included in this file, it would be to slow to computer and in contradiction with the unit testing phylosophy.
+
+now that the explanation on file inclusion are over, let's run the tests.
+
+let's navigate to our test folder:
+    $> cd ~/Documents/thread_project_folder/thread_app_folder/test_ceedling
+    let's open project.yml in a text editor
+    The two main variable to edit are :paths: and :define:
+    the same as with the C/C++ extension, we will copy here all the path of our Makefile (Node, Router and Gateway)
+    and their define as well.
+
+all our test files are located int the test folder ~/Documents/thread_project_folder/thread_app_folder/test_ceedling/test
+(according to the architecture of our thread_app_folder)
+
+in order to run the test:
+    $> ceedling
+
+We now have fully function test framework, where we can write and test our code on our PC rather than testing diretly on our NRF, which
+will levitate the task for compiling, flashing, opening the SEGGER_RTT_client program, reseting the NRF and waiting for the the printf 
+to be displayed or to use our debug capabilities with stepping into the code.
+
+
+
+IN SUMMARY 
+
+in this manual, we saw: 
+    how to create a valid architecture for our project folder
+    how to set-up the project with Segger Embedded Studio, which is usually the easier way, for faster development
+    how to set up an open source environement which bring us more control and understanding on the system, but also more complexity
+    how to set up VScode to automate our development process
+    how to test our code with ceedling
+
+
+REMARQ:
+    There is a "problem/feature"  with GCC (probably on the linking side) and the TWI of the NRF52.
+    When using TWI and compiling with GCC, the node system does not work if we use the O3 optimization

@@ -1,0 +1,51 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Back end of the overview using express socketio mongodb nodejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "autotest": "jest --watchAll --runInBand",
+    "testcoverage": "jest --runInBand --coverage",
+    "test": "jest --runInBand",
+    "run": "source ~/Documents/local_prog/javascript/secrets/qoverview/backend/server/app-env && node index.js ",
+    "deploy": "cd ../overview_frontend/ && npm run build && cd ../overview_backend/ && cp -R ../overview_frontend/dist/ distAngular/dist && git add . && git commit -a -m \"deployment on Heroku\" && git push heroku master"
+  },
+  "engines": {
+    "node": "8.11.2",
+    "npm": "6.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pseudoincorrect@bitbucket.org/pseudoincorrect/qoverview.git"
+  },
+  "keywords": [
+    "express",
+    "socketio",
+    "mongodb",
+    "nodejs"
+  ],
+  "author": "Maxime Clement",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pseudoincorrect/qoverview#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "config": "^1.30.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-async-errors": "^3.0.0",
+    "fawn": "^2.1.5",
+    "jest": "^23.4.1",
+    "joi": "^13.4.0",
+    "joi-objectid": "^2.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.4",
+    "node-random-name": "^1.0.1",
+    "npm": "^6.2.0",
+    "supertest": "^3.1.0",
+    "winston": "^3.0.0",
+    "winston-mongodb": "^4.0.0-rc1"
+  }
+}

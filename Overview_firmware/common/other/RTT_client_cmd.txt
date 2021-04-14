@@ -1,0 +1,17 @@
+JLinkExe -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19010 -Speed 40000
+JLinkRTTClient -rtttelnetport 19010
+
+JLinkExe -SelectEmuBySN 683358371 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19011 -Speed 40000
+JLinkRTTClient -rtttelnetport 19011
+
+JLinkExe -SelectEmuBySN 683286864 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19012 -Speed 40000
+JLinkRTTClient -rtttelnetport 19012
+
+JLinkExe -SelectEmuBySN 683207693 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19013 -Speed 40000
+JLinkRTTClient -rtttelnetport 19013
+
+JLinkExe -SelectEmuBySN 683658257 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19014 -Speed 40000
+JLinkRTTClient -rtttelnetport 19014
+
+JLinkExe -SelectEmuBySN 683409542 -If SWD -Device NRF52840_XXAA -AutoConnect 1 -RTTTelnetPort 19015 -Speed 40000
+JLinkRTTClient -rtttelnetport 19015

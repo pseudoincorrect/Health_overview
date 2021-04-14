@@ -1,0 +1,9 @@
+{
+    "db": "mongodb://localhost:27017/qoverview_prod",
+    "firstUser": {
+        "name": "manager",
+        "email": "manager@hbku.com",
+        "company": "HBKU",
+        "userType": "manager"
+    }
+}

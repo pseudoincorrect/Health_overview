@@ -1,0 +1,356 @@
+--- main.c -- 469 ------------------------------------------
+{
+if (thread_ring_buff_w >= thread_ring_buff_r)
+return (thread_ring_buff_w - thread_ring_buff_r);
+else
+return (THREAD_BUFF_SIZE - (thread_ring_buff_r - thread_ring_buff_w));
+    4B06        ldr r3, =0x20000AB1 <thread_ring_buff_r>
+    781B        ldrb r3, [r3]
+    461A        mov r2, r3
+    4B03        ldr r3, =0x20000AB0 <thread_ring_buff_w>
+    781B        ldrb r3, [r3]
+    1AD3        subs r3, r2, r3
+    F1C30340    rsb.w r3, r3, #0x40
+--- main.c -- 474 ------------------------------------------
+}
+    4618        mov r0, r3
+    4770        bx lr
+    BF00        nop
+    20000AB0    .word 0x20000AB0
+    20000AB1    .word 0x20000AB1
+--- main.c -- 482 ------------------------------------------
+// 888 " 888 d8888888888 888 888 Y8888
+// 888 888 d88P 888 8888888 888 Y888
+int main(int argc, char * argv[])
+{
+    B510        push {r4, lr}
+    B082        sub sp, sp, #8
+    9001        str r0, [sp, #4]
+    9100        str r1, [sp]
+--- main.c -- 487 ------------------------------------------
+uint16_t temp30205;
+uint16_t temp30102;
+uint8_t valid;
+init_wdt();
+    F7FFFBCC    bl 0x00001E90 <init_wdt>
+--- main.c -- 491 ------------------------------------------
+init_gpio();
+    F7FFFF26    bl 0x00002548 <init_gpio>
+--- main.c -- 492 ------------------------------------------
+log_init();
+    F7FFFCE4    bl 0x000020C8 <log_init>
+--- main.c -- 493 ------------------------------------------
+segger_printf("\n\n");
+    4949        ldr r1, =0x0003E8D4
+    2000        movs r0, #0
+    F035FCBA    bl 0x0003807C <SEGGER_RTT_printf>
+--- main.c -- 494 ------------------------------------------
+segger_printf("NODE starts Go !\n");
+    4948        ldr r1, =0x0003E8D8
+    2000        movs r0, #0
+    F035FCB6    bl 0x0003807C <SEGGER_RTT_printf>
+--- main.c -- 495 ------------------------------------------
+appHal_rtc_config();
+    F7FDFFDE    bl 0x000006D0 <appHal_rtc_config>
+--- main.c -- 497 ------------------------------------------
+set_addr();
+    F7FFFE84    bl 0x00002420 <set_addr>
+--- main.c -- 499 ------------------------------------------
+print_addr(&node_addr_g);
+    4845        ldr r0, =0x200004C4 <node_addr_g>
+    F7FFFC15    bl 0x00001F48 <print_addr>
+--- main.c -- 500 ------------------------------------------
+scheduler_init();
+    F7FFFD23    bl 0x00002168 <scheduler_init>
+--- main.c -- 502 ------------------------------------------
+utils_timer_init();
+    F7FFFCBB    bl 0x0000209C <utils_timer_init>
+--- main.c -- 503 ------------------------------------------
+is_connected_g = false;
+    4B43        ldr r3, =0x2000052C <is_connected_g>
+    2200        movs r2, #0
+    701A        strb r2, [r3]
+--- main.c -- 504 ------------------------------------------
+thread_ring_buff_w = 0;
+    4B42        ldr r3, =0x20000AB0 <thread_ring_buff_w>
+    2200        movs r2, #0
+    701A        strb r2, [r3]
+--- main.c -- 505 ------------------------------------------
+thread_ring_buff_r = 0;
+    4B42        ldr r3, =0x20000AB1 <thread_ring_buff_r>
+    2200        movs r2, #0
+    701A        strb r2, [r3]
+--- main.c -- 506 ------------------------------------------
+threadMsgCallback_init(rx_thread);
+    4841        ldr r0, =0x0000219D
+    F000F8C5    bl 0x000028C8 <threadMsgCallback_init>
+--- main.c -- 507 ------------------------------------------
+thread_instance_init();
+    F7FFFCDD    bl 0x000020FC <thread_instance_init>
+--- main.c -- 508 ------------------------------------------
+thread_coap_init();
+    F7FFFCFD    bl 0x00002140 <thread_coap_init>
+--- main.c -- 509 ------------------------------------------
+thread_bsp_init();
+    F7FFFCA1    bl 0x0000208C <thread_bsp_init>
+--- main.c -- 510 ------------------------------------------
+app_sensors_init();
+    F7FDFE85    bl 0x00000458 <app_sensors_init>
+--- main.c -- 512 ------------------------------------------
+appHal_twi_init();
+    F7FEF989    bl 0x00000A64 <appHal_twi_init>
+--- main.c -- 514 ------------------------------------------
+max30205_init(appHal_twi_get_instance(), appHal_twi_get_event_instance());
+    F7FEF9B7    bl 0x00000AC4 <appHal_twi_get_instance>
+    4604        mov r4, r0
+    F7FEF9BA    bl 0x00000AD0 <appHal_twi_get_event_instance>
+    4603        mov r3, r0
+    4619        mov r1, r3
+    4620        mov r0, r4
+    F7FEFABD    bl 0x00000CE0 <max30205_init>
+--- main.c -- 515 ------------------------------------------
+heart_rate_init(appHal_twi_get_instance(), appHal_twi_get_event_instance());
+    F7FEF9AD    bl 0x00000AC4 <appHal_twi_get_instance>
+    4604        mov r4, r0
+    F7FEF9B0    bl 0x00000AD0 <appHal_twi_get_event_instance>
+    4603        mov r3, r0
+    4619        mov r1, r3
+    4620        mov r0, r4
+    F7FEFF85    bl 0x00001684 <heart_rate_init>
+--- main.c -- 516 ------------------------------------------
+MAX30105_shutDown();
+    F7FEFB7E    bl 0x00000E7A <MAX30105_shutDown>
+--- main.c -- 517 ------------------------------------------
+for (;;)
+{
+sensors_thread_process(&sensors_g);
+    4831        ldr r0, =0x200004B0 <sensors_g>
+    F7FDFF04    bl 0x0000058C <sensors_thread_process>
+--- main.c -- 521 ------------------------------------------
+if (is_new_sensors_data())
+    F7FDFF8E    bl 0x000006A4 <is_new_sensors_data>
+    4603        mov r3, r0
+    2B00        cmp r3, #0
+    D001        beq 0x00002792
+--- main.c -- 522 ------------------------------------------
+app_thread_push_msg();
+    F7FFFDF7    bl 0x00002380 <app_thread_push_msg>
+--- main.c -- 523 ------------------------------------------
+thread_send_process();
+    F7FFFE53    bl 0x0000243C <thread_send_process>
+--- main.c -- 525 ------------------------------------------
+feed_the_dog();
+    F7FFFBCD    bl 0x00001F34 <feed_the_dog>
+--- main.c -- 527 ------------------------------------------
+thread_process();
+    F000FDF1    bl 0x00003380 <thread_process>
+--- main.c -- 528 ------------------------------------------
+app_sched_execute();
+    F001FAC7    bl 0x00003D30 <app_sched_execute>
+--- main.c -- 529 ------------------------------------------
+check_connection();
+    F7FFFF23    bl 0x000025EC <check_connection>
+--- main.c -- 530 ------------------------------------------
+if (!is_sensor_updating() && (!is_connected_g || is_buffer_empty()))
+    F7FDFEB9    bl 0x0000051C <is_sensor_updating>
+    4603        mov r3, r0
+    F0830301    eor r3, r3, #1
+    B2DB        uxtb r3, r3
+    2B00        cmp r3, #0
+    D011        beq 0x000027DA
+--- main.c -- 531 ------------------------------------------
+if (!is_sensor_updating() && (!is_connected_g || is_buffer_empty()))
+    4B1F        ldr r3, =0x2000052C <is_connected_g>
+    781B        ldrb r3, [r3]
+    F0830301    eor r3, r3, #1
+    B2DB        uxtb r3, r3
+    2B00        cmp r3, #0
+    D104        bne 0x000027CE
+--- main.c -- 531 ------------------------------------------
+if (!is_sensor_updating() && (!is_connected_g || is_buffer_empty()))
+    F7FFFF66    bl 0x00002694 <is_buffer_empty>
+    4603        mov r3, r0
+    2B00        cmp r3, #0
+    D005        beq 0x000027DA
+--- main.c -- 532 ------------------------------------------
+{
+set_rx_state(RX_OFF_WHEN_IDLE);
+    2001        movs r0, #1
+    F7FFFD60    bl 0x00002294 <set_rx_state>
+--- main.c -- 534 ------------------------------------------
+thread_sleep();
+    F000FDEE    bl 0x000033B4 <thread_sleep>
+    E00F        b 0x000027FA
+--- main.c -- 535 ------------------------------------------
+}
+else
+{
+if (is_connected_g && (buffer_fill() > 5))
+    4B16        ldr r3, =0x2000052C <is_connected_g>
+    781B        ldrb r3, [r3]
+    2B00        cmp r3, #0
+    D008        beq 0x000027F4
+--- main.c -- 538 ------------------------------------------
+if (is_connected_g && (buffer_fill() > 5))
+    F7FFFF67    bl 0x000026B4 <buffer_fill>
+    4603        mov r3, r0
+    2B05        cmp r3, #5
+    DD03        ble 0x000027F4
+--- main.c -- 539 ------------------------------------------
+{
+set_rx_state(RX_ON_WHEN_IDLE);
+    2000        movs r0, #0
+    F7FFFD51    bl 0x00002294 <set_rx_state>
+    E002        b 0x000027FA
+--- main.c -- 541 ------------------------------------------
+}
+else
+{
+set_rx_state(RX_OFF_WHEN_IDLE);
+    2001        movs r0, #1
+    F7FFFD4D    bl 0x00002294 <set_rx_state>
+--- main.c -- 545 ------------------------------------------
+}
+}
+if (otThreadGetLinkMode(thread_ot_instance_get()).mRxOnWhenIdle)
+    F000FDF7    bl 0x000033EC <thread_ot_instance_get>
+    4603        mov r3, r0
+    4618        mov r0, r3
+    F006FD6B    bl 0x000092DC <otThreadGetLinkMode>
+    4603        mov r3, r0
+    B2DB        uxtb r3, r3
+    F0030301    and r3, r3, #1
+    B2DB        uxtb r3, r3
+    2B00        cmp r3, #0
+    D004        beq 0x0000281E
+--- main.c -- 548 ------------------------------------------
+appHal_write(PIN_DBG_2, 1);
+    2101        movs r1, #1
+    2020        movs r0, #32
+    F7FEF8A5    bl 0x00000966 <appHal_write>
+    E7AF        b 0x0000277E
+--- main.c -- 549 ------------------------------------------
+else
+appHal_write(PIN_DBG_2, 0);
+    2100        movs r1, #0
+    2020        movs r0, #32
+    F7FEF8A0    bl 0x00000966 <appHal_write>
+--- main.c -- 520 ------------------------------------------
+sensors_thread_process(&sensors_g);
+    E7AA        b 0x0000277E
+    0003E8D4    .word 0x0003E8D4
+    0003E8D8    .word 0x0003E8D8
+    200004C4    .word 0x200004C4
+    2000052C    .word 0x2000052C
+    20000AB0    .word 0x20000AB0
+    20000AB1    .word 0x20000AB1
+    0000219D    .word 0x0000219D
+    200004B0    .word 0x200004B0
+--- thread_coap_utils.c -- 111 -----------------------------
+}
+bool is_provisionning_enabled (void)
+{
+return provisionning_enabled_g;
+    4B01        ldr r3, =0x20000D14 <provisionning_enabled_g>
+    781B        ldrb r3, [r3]
+--- thread_coap_utils.c -- 116 -----------------------------
+}
+    4618        mov r0, r3
+    4770        bx lr
+    20000D14    .word 0x20000D14
+--- thread_coap_utils.c -- 117 -----------------------------
+static void reset_has_received (void)
+{
+has_received_g = false;
+    4B02        ldr r3, =0x20000D15 <has_received_g>
+    2200        movs r2, #0
+    701A        strb r2, [r3]
+--- thread_coap_utils.c -- 121 -----------------------------
+}
+    BF00        nop
+    4770        bx lr
+    BF00        nop
+    20000D15    .word 0x20000D15
+--- thread_coap_utils.c -- 122 -----------------------------
+static void set_has_received (void)
+{
+has_received_g = true;
+    4B02        ldr r3, =0x20000D15 <has_received_g>
+    2201        movs r2, #1
+    701A        strb r2, [r3]
+--- thread_coap_utils.c -- 126 -----------------------------
+}
+    BF00        nop
+    4770        bx lr
+    BF00        nop
+    20000D15    .word 0x20000D15
+--- thread_coap_utils.c -- 127 -----------------------------
+bool has_received (void)
+{
+if (has_received_g)
+    4B05        ldr r3, =0x20000D15 <has_received_g>
+    781B        ldrb r3, [r3]
+    2B00        cmp r3, #0
+    D004        beq 0x00002886
+--- thread_coap_utils.c -- 131 -----------------------------
+{
+has_received_g = false;
+    4B03        ldr r3, =0x20000D15 <has_received_g>
+    2200        movs r2, #0
+    701A        strb r2, [r3]
+--- thread_coap_utils.c -- 133 -----------------------------
+return true;
+    2301        movs r3, #1
+    E000        b 0x00002888
+--- thread_coap_utils.c -- 134 -----------------------------
+}
+else
+return false;
+    2300        movs r3, #0
+--- thread_coap_utils.c -- 137 -----------------------------
+}
+    4618        mov r0, r3
+    4770        bx lr
+    20000D15    .word 0x20000D15
+--- thread_coap_utils.c -- 197 -----------------------------
+// 8888888P" 8888888888 888 d88P 888 "Y88888P" 88888888 888
+static void thread_coap_utils_handler_default( void * p_context, otCoapHeader * p_header,
+otMessage * p_message, const otMessageInfo * p_message_info)
+{
+    B500        push {lr}
+    B085        sub sp, sp, #20
+    9003        str r0, [sp, #12]
+    9102        str r1, [sp, #8]
+    9201        str r2, [sp, #4]
+    9300        str r3, [sp]
+--- thread_coap_utils.c -- 203 -----------------------------
+(void)p_header;
+(void)p_message;
+(void)p_message_info;
+NRF_LOG_INFO("Received CoAP message that does not match any request or resource\r\n");
+    4A07        ldr r2, =0x0003E058 <m_nrf_log_app_logs_data_const>
+    4B08        ldr r3, =0x0003E028 <__text_end__>
+    1AD3        subs r3, r2, r3
+    08DB        lsrs r3, r3, #3
+    041B        lsls r3, r3, #16
+    F0430303    orr r3, r3, #3
+    4906        ldr r1, =0x0003E91C
+    4618        mov r0, r3
+    F034FA71    bl 0x00036D94 <nrf_log_frontend_std_0>
+--- thread_coap_utils.c -- 208 -----------------------------
+}
+    BF00        nop
+    B005        add sp, sp, #20
+    F85DFB04    pop.w {pc}
+    BF00        nop
+    0003E058    .word 0x0003E058
+    0003E028    .word 0x0003E028
+    0003E91C    .word 0x0003E91C
+--- thread_coap_utils.c -- 209 -----------------------------
+void threadMsgCallback_init (threadMsgCallback_t callback)
+{
+    B082        sub sp, sp, #8
+    9001        str r0, [sp, #4]
+--- thread_coap_utils.c -- 212 -----------------------------
+threadMsgCallback = callback;
+    4A02        ldr r2, =0x20000D18 <threadMsgCallback>

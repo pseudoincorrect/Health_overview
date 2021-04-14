@@ -1,0 +1,33 @@
+{
+  "name": "overview-gateway",
+  "version": "1.0.0",
+  "description": "node js app making the bridge between the Bluetooth mesh network and the backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pseudoincorrect@bitbucket.org/pseudoincorrect/overview_gateway.git"
+  },
+  "keywords": [
+    "nodejs",
+    "serialport",
+    "http",
+    "web",
+    "hardware",
+    "raspberrypi"
+  ],
+  "author": "Maxime Clement",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pseudoincorrect/overview_gateway#readme",
+  "dependencies": {
+    "circular-buffer": "^1.0.2",
+    "config": "^2.0.1",
+    "moment": "^2.22.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "safe-buffer": "^5.1.2",
+    "serialport": "^7.0.2"
+  }
+}

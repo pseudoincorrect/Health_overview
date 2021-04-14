@@ -1,0 +1,72 @@
+
+<div *ngIf="this.employeesService.employees" fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutGap="10px grid">
+
+  <!-- Display employees WITH name, sorted by name -->
+  <ng-container *ngFor="let empData of this.employeesService.employees.employees | orderBy:'name'; let i=index ">
+    <ng-container *ngIf="empData">
+      <ng-container *ngIf="empData.name">
+        <div>
+          <mat-card style="width:300px">
+            <mat-card-title fxLayout="row wrap" fxLayoutAlign="center center"> 
+              <span (dblclick)="openDialogEditName(empData.nodeAddress)"> 
+                <span> {{empData.name}} </span> &nbsp;
+                <svg-icon class="logo" src="../../../assets/edit.svg" [svgStyle]="{'width.px':15,'height.px':15,'fill':'grey'}" (click)="openDialogEditName(empData.nodeAddress)"> </svg-icon>
+              </span>
+            </mat-card-title>
+            <mat-card-content >
+              <div fxLayout="colum"  fxLayoutAlign="center center">
+                <div>
+                  Temperature <b>{{ empData.getLastTimeserie().temperature }}</b> °C <br>
+                  Humidity <b>{{ empData.getLastTimeserie().humidity }}</b> % <br>
+                  Heart Rate <b>{{ empData.getLastTimeserie().heartRate }}</b> BPM 
+                </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <app-health-status-icon [empId]="empData.nodeAddress"></app-health-status-icon>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-footer fxLayoutAlign="center center">
+              <button mat-raised-button color="primary" routerLink="/details/{{empData.nodeAddress}}" routerLinkActive="active" > Details </button>
+            </mat-card-footer>
+          </mat-card>
+        </div>
+      </ng-container>
+    </ng-container> 
+  </ng-container>
+  
+  <!-- Display employees WITHOUT name, sorted by ID-->
+  <ng-container *ngFor="let empData of this.employeesService.employees.employees | orderBy:'nodeAddress'; let i=index ">
+    <ng-container *ngIf="empData">
+      <ng-container *ngIf="!empData.name">
+        <div>
+          <mat-card style="width:300px">
+            <mat-card-title fxLayout="row wrap" fxLayoutAlign="center center"> 
+              <span (dblclick)="openDialogEditName(empData.nodeAddress)"> 
+                {{empData.nodeAddress}}
+              </span>
+            </mat-card-title>
+            <mat-card-content >
+              <div fxLayout="colum"  fxLayoutAlign="center center">
+                <div>
+                  Temperature <b>{{ empData.getLastTimeserie().temperature }}</b> °C <br>
+                  Humidity <b>{{ empData.getLastTimeserie().humidity }}</b> % <br>
+                  Heart Rate <b>{{ empData.getLastTimeserie().heartRate }}</b> BPM 
+                </div>
+                <div>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <app-health-status-icon [empId]="empData.nodeAddress"></app-health-status-icon>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-footer fxLayoutAlign="center center">
+              <button mat-raised-button color="primary" routerLink="/details/{{empData.nodeAddress}}" routerLinkActive="active" > Details </button>
+            </mat-card-footer>
+          </mat-card>
+        </div>
+      </ng-container>
+    </ng-container> 
+  </ng-container>
+
+</div>
+  

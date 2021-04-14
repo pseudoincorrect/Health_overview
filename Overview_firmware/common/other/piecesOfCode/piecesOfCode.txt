@@ -1,0 +1,151 @@
+
+// 8888888b. 8888888 8888888888  .d8888b.  8888888888  .d8888b.  
+// 888   Y88b  888   888        d88P  Y88b 888        d88P  Y88b 
+// 888    888  888   888        888    888 888        Y88b.      
+// 888   d88P  888   8888888    888        8888888     "Y888b.   
+// 8888888P"   888   888        888        888            "Y88b. 
+// 888         888   888        888    888 888              "888 
+// 888         888   888        Y88b  d88P 888        Y88b  d88P 
+// 888       8888888 8888888888  "Y8888P"  8888888888  "Y8888P"  
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 8888888b.  8888888b.  8888888 888b    888 88888888888 
+// 888   Y88b 888   Y88b   888   8888b   888     888     
+// 888    888 888    888   888   88888b  888     888     
+// 888   d88P 888   d88P   888   888Y88b 888     888     
+// 8888888P"  8888888P"    888   888 Y88b888     888     
+// 888        888 T88b     888   888  Y88888     888     
+// 888        888  T88b    888   888   Y8888     888     
+// 888        888   T88b 8888888 888    Y888     888    
+
+// Print address addr
+segger_printf("received addr: ");
+for (i = 0; i < BLE_GAP_ADDR_LEN; i++) {
+    segger_printf("%02x", addr_ptr[i]);
+}
+segger_println("");
+
+// Print address for AdvMsg
+// segger_println("to mesh_send : %c%02x%02x%02x%02x%02x%02x%c size %d\n\r",
+UART_PRINTF("to addr : %02x%02x%02x%02x%02x%02x \n\r",
+    advMsg.advData.node_addr.addr[0],
+    advMsg.advData.node_addr.addr[1],
+    advMsg.advData.node_addr.addr[2],
+    advMsg.advData.node_addr.addr[3],
+    advMsg.advData.node_addr.addr[4],
+    advMsg.advData.node_addr.addr[5]);
+
+// Sprint formatted data for the UART
+   sprintf(msg_str_formatted,
+       " addr = %02x%02x%02x%02x%02x%02x \n\r\
+       command = %04x \n\r\
+       skinTemperature = %04x \n\r\
+       temperature = %04x \n\r\
+       humidity = %04x \n\r\
+       heartRate = %04x \n\r\
+       dehydration = %04x \n\r\
+       reserved1 = %04x \n\r\
+       reserved2 = %04x \n\n\r",
+       data_from_fifo.addr[0],
+       data_from_fifo.addr[1],
+       data_from_fifo.addr[2],
+       data_from_fifo.addr[3],
+       data_from_fifo.addr[4],
+       data_from_fifo.addr[5],
+       data_from_fifo.command,
+       data_from_fifo.advData.sensors.skinTemperature,
+       data_from_fifo.advData.sensors.temperature,
+       data_from_fifo.advData.sensors.humidity,
+       data_from_fifo.advData.sensors.heartRate,
+       data_from_fifo.advData.sensors.dehydration,
+       data_from_fifo.advData.sensors.reserved1,
+       data_from_fifo.advData.sensors.reserved2);
+   segger_println("msg: %s\n\r", msg_str_formatted); 
+
+
+
+8888888b.  8888888888 8888888b.  8888888888        d8888 88888888888 
+888   Y88b 888        888   Y88b 888              d88888     888     
+888    888 888        888    888 888             d88P888     888     
+888   d88P 8888888    888   d88P 8888888        d88P 888     888     
+8888888P"  888        8888888P"  888           d88P  888     888     
+888 T88b   888        888        888          d88P   888     888     
+888  T88b  888        888        888         d8888888888     888     
+888   T88b 8888888888 888        8888888888 d88P     888     888     
+                                                                 
+
+888b    888          .d8888b.  8888888888 888b    888 8888888b.  
+8888b   888         d88P  Y88b 888        8888b   888 888  "Y88b 
+88888b  888         Y88b.      888        88888b  888 888    888 
+888Y88b 888          "Y888b.   8888888    888Y88b 888 888    888 
+888 Y88b888             "Y88b. 888        888 Y88b888 888    888 
+888  Y88888               "888 888        888  Y88888 888    888 
+888   Y8888         Y88b  d88P 888        888   Y8888 888  .d88P 
+888    Y888 88888888 "Y8888P"  8888888888 888    Y888 8888888P"  
+
+    uint8_t addr[ADDR_LEN];
+    uint16_t cnt;
+} msg_metadata_pool_t;
+
+uint8_t msg_metadata_pool_i_g;
+msg_metadata_pool_t msg_metadata_pool_g[POOL_SIZE];
+
+void  add_msg_metadata_to_pool (node_addr_t* addr)
+{
+    msg_metadata_pool_g[msg_metadata_pool_i_g].cnt = addr->reserved1;
+    memcpy( msg_metadata_pool_g[msg_metadata_pool_i_g].addr, 
+            addr, 
+            sizeof(addr) );
+//    segger_printf("message added cnt %d, addr %d\n\r",
+//                   msg_metadata_pool_g[msg_metadata_pool_i_g].cnt,
+//                   (uint32_t) msg_metadata_pool_g[msg_metadata_pool_i_g].addr[0]);
+    msg_metadata_pool_i_g = (msg_metadata_pool_i_g + 1) & 0x0F;
+}
+
+bool  is_duplicate_msg (node_addr_t* addr)
+{
+    for(size_t i = 0; i < POOL_SIZE; i++)
+    {
+        if (msg_metadata_pool_g[i].cnt == addr->reserved1)
+        {
+            if (compare_addr(msg_metadata_pool_g[i].addr, addr))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+if (thread_msg->type == N_G_SENSORS)
+{
+    if (!is_duplicate_msg( &(thread_msg->content.sensors) ) )
+    {
+        print_pretty_thread_msg(thread_msg);
+        
+        bsp_board_led_on(3);
+        nrf_delay_ms(50);
+        bsp_board_led_off(3);
+
+        add_msg_metadata_to_pool(&(thread_msg->content.sensors) );
+        memcpy( &fifo_data_packet, thread_msg, sizeof(thread_msg_t) );
+        //    print_pretty_thread_msg((thread_msg_t*) &fifo_data_packet);  
+        ret = gen_fifo_write(&rx_fifo, &fifo_data_packet);
+        if (ret != NRF_SUCCESS) 
+        {
+            NRF_LOG_WARNING("write failed, flushing fifo");
+            gen_fifo_flush(&rx_fifo);
+        }
+    }
+}

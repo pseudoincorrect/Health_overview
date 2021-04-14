@@ -1,0 +1,11 @@
+preliminary project steps
+    - prepare the format of the data in the database
+    - store a data in database
+    - read a data from database
+    - open a socket.io connection
+    - receive a data and store it
+    - retrieve a data and send it
+    - implement authentication jwt
+
+start database
+mongod --dbpath ~/Documents/local_prog/database/qoverview/data/db/

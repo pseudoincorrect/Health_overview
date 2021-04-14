@@ -1,0 +1,36 @@
+<div fxLayoutAlign="center center"> 
+  <div fxLayout="column" style="margin-left:10px;margin-top:20px;margin-right:10px"> 
+    <mat-card>
+      <mat-card-title fxLayout="row wrap" fxLayoutAlign="center center">
+        Daily Report, Today {{ this.date }}
+      </mat-card-title>
+      <mat-card-content>
+        <p>
+          <b>12</b> employees that need rest within the next hour
+        </p> 
+        <p>
+          <b>5</b> employees with an alarming health statut recquiring an <b>immediate</b> rest time
+        </p> 
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <div fxFlex="1 2 calc(15em + 20px)"> 
+        <canvas #detailCanvas ></canvas>
+      </div>
+    </mat-card>
+    <mat-card>
+      <p>
+        <button mat-raised-button color="danger"> 
+          View employees with alarming health status 
+        </button>
+      </p>
+      <p>
+        <button mat-raised-button color="warning"> 
+          View employees needing rest
+        </button>
+      </p>
+      
+    </mat-card>
+  </div>
+</div>
+

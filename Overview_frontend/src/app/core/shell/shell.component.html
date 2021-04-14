@@ -1,0 +1,92 @@
+<div  fxFlex >
+  <mat-sidenav-container fxFill >
+    <mat-sidenav #sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="!isMobile" [disableClose]="!isMobile" ngClass.gt-sm="has-border">
+      <mat-toolbar color="primary">
+        <span>Overview</span>
+        <div fxFlex></div>
+        <div>
+          <button mat-icon-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <mat-list>
+              <mat-list-item>
+                <span>Logged in as</span>&nbsp;<b>{{username}}</b>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+            <button mat-menu-item (click)="logout()">Logout</button>
+          </mat-menu>
+        </div>
+      </mat-toolbar>
+      <nav>
+        <mat-list>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/home" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Overview</span>
+          </a>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/report" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Daily Report</span>
+          </a>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/about" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>How it works</span>
+          </a>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/setting-up" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Set up your system</span>
+          </a>
+          <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/settings" routerLinkActive="active" (click)="isMobile && sidenav.close()">
+            <span>Settings</span>
+          </a>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </nav>
+    </mat-sidenav>
+    
+    <div class="page-wrap">
+      
+      <header role="banner">
+        <mat-toolbar color="primary" class="mat-elevation-z6">
+          <button class="menu-button" mat-icon-button (click)="sidenav.toggle()" fxHide.gt-sm>
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>{{title}}</span>
+        </mat-toolbar>
+      </header>
+      
+      <main class="content">
+        <div *ngIf="this.employeeService.isLoading">
+          <div fxLayoutAlign="center center" style="margin-left:10px;margin-top:30px;margin-right:10px">
+              <app-loader [isLoading]="this.employeeService.isLoading" size="10"></app-loader>
+          </div>
+        </div>
+        <div *ngIf="!this.employeeService.isLoading" style="margin-left:10px;margin-top:10px;margin-right:10px">
+          <router-outlet></router-outlet>
+        </div> 
+      </main>
+      
+      <footer style="margin-top:10px">
+        <mat-divider></mat-divider>
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayout.xs="column" fxLayoutGap="10px grid"  >
+          <div>
+            <a href="https://hbku.edu.qa/en/division/information-computing-technology" mat-button>
+              <h3> 
+                <img src="../../../assets/hbku_logo.jpeg" alt="hbku" style="width:40px; vertical-align:middle" mat-button>
+                Made by HBKU, ICT 
+              </h3> 
+            </a>
+            <button [routerLink]="['/home']" mat-button> <h3> Home </h3> </button>
+            <button [routerLink]="['/about']" mat-button><h3> About </h3></button>
+            <button [routerLink]="['/contact']" mat-button><h3> Contact Us </h3></button>
+          </div>
+        </div> 
+      </footer>
+      
+    </div>
+    
+  </mat-sidenav-container>
+</div>

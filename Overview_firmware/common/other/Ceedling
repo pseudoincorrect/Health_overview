@@ -1,0 +1,53 @@
+/////////////////////////////////////////////////////////////////////
+CEEDLING file inclusionn problematic for Big projects (nordic SDK)
+
+When testing a file, put all DIRECT dependencies of this file as mocks
+(files which contain the function which are called in the tested file)
+(not only the file included in the tested file)
+
+For instance
+let's test file "a.c" with a test file called "test_a.c"
+"mock_b.c" and "mock_c.c" are the mock file for file "b.c" and "c.c"
+
+"a.c" use functions from file "b.c" and "c.c"
+however "a.c" only include "b.c" as "b.c" already include "c.c"
+Therefore, "test_a.c" must include "mock_b.c" and "mock_c.c" and not only "mock_b.c"
+
+Why ? 
+Because when Ceedling creates a mock file, it will not create mock for all file included in this file, it would be to slow to computer and in contradiction with the unit testing phylosophy.
+
+/////////////////////////////////////////////////////////////////////
+Debug with lldb
+
+{
+    "name": "(lldb) Launch tests",
+    "type": "cppdbg",
+    "request": "launch",
+    // change the path (filename only) to the ceedling program create (one per test file)
+    "program": "${workspaceFolder}/test_ceedling/build/test/out/test_app_thread.out",
+    "args": [],
+    "stopAtEntry": true,
+    "cwd": "${workspaceFolder}",
+    "environment": [],
+    "externalConsole": true,
+    "MIMode": "lldb"
+},
+
+/////////////////////////////////////////////////////////////////////
+Enable Ceedling pluggin
+
+:cmock:
+  :mock_prefix: mock_
+  :when_no_prototypes: :warn
+  :enforce_strict_ordering: TRUE
+  :when_ptr: :compare_ptr
+  :plugins:
+    - :ignore
+    - :callback
+    - :expect_any_args
+  :treat_as:
+    uint8:    HEX8
+    uint16:   HEX16
+    uint32:   UINT32
+    int8:     INT8
+    bool:     UINT8

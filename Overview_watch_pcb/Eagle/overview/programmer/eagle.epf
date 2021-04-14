@@ -1,0 +1,42 @@
+[Eagle]
+Version="09 02 02"
+Platform="Mac OS X"
+Globals="Globals"
+Desktop="Desktop"
+
+[Globals]
+AutoSaveProject=1
+UsedLibraryUrn="urn:adsk.eagle:library:210"
+UsedLibraryUrn="urn:adsk.eagle:library:229"
+UsedLibraryUrn="urn:adsk.eagle:library:325"
+UsedLibraryUrn="urn:adsk.eagle:library:348"
+UsedLibraryUrn="urn:adsk.eagle:library:371"
+UsedLibraryUrn="urn:adsk.eagle:library:372"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/BatManager_BQ24232.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/BatManager_MCP73831.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/DCDC_1V8_TPS62202DBVR.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/DCDC_3V3_TPS62203DBVR.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/FPC_0512810594.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/I2Ctranslator_PCA9306DQER.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/LED_APT1608EC.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/L_0604.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/Led_LTST-C195KGJRKT.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/Nrf52_BT840.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/heartRate_max30102.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/ledRGB_LTST-C19HE1WT.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/motor.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/overv_supplies.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/power_in.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/push_button.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/slider.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/transistor.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/temp_max30205.lbr"
+UsedLibrary="/Users/maximeclement/GoogleDrive/G_programming/PCB/Eagle_projects/overview_pcb/overview_v_1_0/overview_libraries/xtal_NX3215SA-32.768K-STD-MUA-9.lbr"
+
+[Win_1]
+Type="Control Panel"
+Number=0
+
+[Desktop]
+Screen="5040 1890"
+Window="Win_1"

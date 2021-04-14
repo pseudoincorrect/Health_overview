@@ -1,0 +1,93 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/1.2daa0e34c00465c6c327.js",
+        "/2.9ef7ce9eeb89ed0756b6.js",
+        "/3.e997da0f9410cff8a9e7.js",
+        "/4.859ff546ae119ce54046.js",
+        "/5.b94fce972d8a40962519.js",
+        "/6.9b34bb0a9a046ef0033e.js",
+        "/7.293b47281ed1810662c6.js",
+        "/common.96dcdf024ec74b5c3d1f.js",
+        "/index.html",
+        "/main.bf6f38bfe82c3874cd25.js",
+        "/polyfills.e8952366d8b5ffaf5c1c.js",
+        "/runtime.b3b35cc670002cbb429c.js",
+        "/styles.343c4ed9d15a06316092.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/app-logo.jpg",
+        "/assets/apple-touch-icon.png",
+        "/assets/circle.svg",
+        "/assets/edit.svg",
+        "/assets/embedded_system.png",
+        "/assets/hbku_logo.jpeg",
+        "/assets/heartbeat.svg",
+        "/assets/mesh_network.png",
+        "/assets/notify.svg",
+        "/assets/refresh.svg",
+        "/assets/thermometer.svg",
+        "/assets/waterDrop.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/1.2daa0e34c00465c6c327.js": "cefe9c9611b685a78f4d004d9d95cc68d5b9db4b",
+    "/2.9ef7ce9eeb89ed0756b6.js": "9801c1ab81725d12342f2c386d59485342116772",
+    "/3.e997da0f9410cff8a9e7.js": "54b2ef28bcfdeb27997e294d3a6e937b61ce14c2",
+    "/4.859ff546ae119ce54046.js": "b60a5a7ee1d678e2ae35a964f2d25072887bbee8",
+    "/5.b94fce972d8a40962519.js": "f651d29b31ba473a3d897d047a6aa38035df321b",
+    "/6.9b34bb0a9a046ef0033e.js": "55cbc5fde9f12d7b8edb0a3e837575957c0204ae",
+    "/7.293b47281ed1810662c6.js": "1cb20f240a2659c19b7cfcdc24a5774e33db4459",
+    "/assets/app-logo.jpg": "80cc727724e5111b41796b44d7772b48e6953cfd",
+    "/assets/apple-touch-icon.png": "229df2094cc590088de00ea97a1eb4e4493101d2",
+    "/assets/circle.svg": "8356723b76613de7790e408e36374932f7945032",
+    "/assets/edit.svg": "03d1f6c1cae8c176952f1018b8eec741f1459c30",
+    "/assets/embedded_system.png": "f2fcc64c461da8f51d88a5772e5a81042838c2ce",
+    "/assets/hbku_logo.jpeg": "1a7be61a611e2810fc8fbc2ea07b35c19d2cee7b",
+    "/assets/heartbeat.svg": "8f713da5bd95d1b9159f1fc9d8e130bb870c47e1",
+    "/assets/mesh_network.png": "605aef012fcb3b32f38f55a018d9f348d150b2c2",
+    "/assets/notify.svg": "1900331261f48d807af0fb95451bf5471e5c789b",
+    "/assets/refresh.svg": "06e10ae310ef9accd7ff5be9eecc3a94f8d633cd",
+    "/assets/thermometer.svg": "ff5f1501996928729f9504c694292951fcdd122d",
+    "/assets/waterDrop.svg": "c31a568f1667a184b8dfd7543582f2a470d32226",
+    "/common.96dcdf024ec74b5c3d1f.js": "7148d506963d1cb0eebd39c9fb1c2754e86033a0",
+    "/index.html": "36b1e5f22e96b55b1ce9107b127e8621223b64d3",
+    "/main.bf6f38bfe82c3874cd25.js": "4f3639fb62e0c9927095bf370e59c7b2d9e55617",
+    "/polyfills.e8952366d8b5ffaf5c1c.js": "e378f83808e323ffa178426d8cecdf673598d133",
+    "/runtime.b3b35cc670002cbb429c.js": "2163bd0d0cd3eb5d50a3ff10df5601a2034dc9dd",
+    "/styles.343c4ed9d15a06316092.css": "f1db9218eddabe6e09eb17850eb0940db6208668"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

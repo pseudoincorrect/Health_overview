@@ -1,0 +1,56 @@
+<div fxLayoutAlign="center center"> 
+  <div fxLayout="column"> 
+    <mat-card-content>
+      <mat-card> 
+        <mat-card-title fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="this.employee"> 
+          <div (dblclick)="openDialogEditName()"> 
+            <span *ngIf="!this.employee.name"> {{ this.employee.nodeAddress }} </span>
+            <span> {{this.employee.name}} </span> &nbsp;
+            <svg-icon class="logo" src="../../../assets/edit.svg" [svgStyle]="{'width.px':15,'height.px':15,'fill':'grey'}" (click)="openDialogEditName()"> </svg-icon>
+        </div> 
+        </mat-card-title>
+        <mat-card-content>
+          <mat-grid-list rowHeight="3:1" cols="2">
+            <mat-grid-tile colspan="1" rowspan="1">
+              <div>
+                <p *ngIf="this.employee"> 
+                  Temperature <b>{{ this.employee.getLastTimeserie().temperature }}</b> °C <br/>
+                  Humidity <b>{{ this.employee.getLastTimeserie().humidity }}</b> % <br/>
+                  Heart Rate <b>{{ this.employee.getLastTimeserie().heartRate }}</b> BPM<br/>
+                </p>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile rowspan="1">
+              <p>
+                <app-health-status-icon [empId]="this.employee.nodeAddress"></app-health-status-icon>
+              </p>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+      <mat-card fxLayout="row wrap" fxLayoutAlign="space-around  center"> 
+        <button mat-raised-button color="primary" (click)="notify(this.employee.nodeAddress)"> 
+          Notifiy &nbsp;
+          <svg-icon class="logo" src="../../../assets/notify.svg" [svgStyle]="{'width.px':15,'height.px':15,'fill':'white'}" > </svg-icon>
+        </button>
+      </mat-card>
+      <mat-card> <h3 style="text-align: center;">
+        <br> <h3 style="text-align: center;">
+        <svg-icon class="logo" src="../../../assets/heartbeat.svg" [svgStyle]="{'width.px':15,'height.px':15}"> </svg-icon>
+        Heart Rate (BPM) </h3> <br>
+        <canvas #detailCanvasHeartRate></canvas>
+        <br>
+        <svg-icon class="logo" src="../../../assets/thermometer.svg" [svgStyle]="{'width.px':17,'height.px':17}"> </svg-icon>
+         Temperature (°C) </h3> <br>
+        <canvas #detailCanvasTemperature></canvas>
+        <mat-divider></mat-divider>
+        <br> <h3 style="text-align: center;">
+        <svg-icon class="logo" src="../../../assets/waterDrop.svg" [svgStyle]="{'width.px':15,'height.px':15}"> </svg-icon>
+        Humidity (%) </h3> <br>
+        <canvas #detailCanvasHumidity></canvas>
+        <br>
+        <mat-divider></mat-divider>
+      </mat-card>
+    </mat-card-content>
+  </div>
+</div>

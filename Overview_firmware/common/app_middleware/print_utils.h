@@ -1,0 +1,24 @@
+#ifndef _PRINT_UTILS_H
+#define _PRINT_UTILS_H
+
+///////////////////////////////////////////////////////////////////////////////
+//    INCLUDED FILES
+///////////////////////////////////////////////////////////////////////////////
+
+#include "command_def.h"
+// SDK Log
+#include "nrf_log_ctrl.h"
+#include "nrf_log.h"
+#include "nrf_log_default_backends.h"
+#include "SEGGER_RTT.h"
+
+///////////////////////////////////////////////////////////////////////////////
+//    Public Functions
+///////////////////////////////////////////////////////////////////////////////
+
+void print_thread_sensor_msg(thread_msg_t* thread_msg);
+void print_pretty_sensors_thread_msg(thread_msg_t* thread_msg);
+void print_pretty_nofif_thread_msg(thread_msg_t* thread_msg);
+void print_addr(node_addr_t* node_addr);
+
+#endif

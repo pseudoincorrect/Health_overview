@@ -1,0 +1,125 @@
+---
+
+# Notes:
+# Sample project C code is not presently written to produce a release artifact.
+# As such, release build options are disabled.
+# This sample, therefore, only demonstrates running a collection of unit tests.
+
+
+:project:
+  :use_exceptions: FALSE
+  :use_test_preprocessor: TRUE
+  :use_auxiliary_dependencies: TRUE
+  :build_root: build
+#  :release_build: TRUE
+  :test_file_prefix: test_
+  :which_ceedling: vendor/ceedling
+  :default_tasks:
+    - test:all
+
+#:release_build:
+#  :output: MyApp.out
+#  :use_assembly: FALSE
+
+:environment:
+
+:extension:
+  :executable: .out
+
+:paths:
+  :test:
+    - +:test/**
+    - +:test/node/**
+  :source:
+    # PROJECTS
+    - ../node/**
+    # COMMON
+    - ../common/**
+    # SDK Root
+    - ../../../../integration/nrfx/**
+    - ../../../../modules/nrfx/**
+    - ../../../../components/libraries/**
+    - ../../../../components/boards
+    - ../../../../components/drivers_nrf/nrf_soc_nosd
+    - ../../../../components/toolchain/cmsis/include
+    - ../../../../external/openthread/**
+    - ../../../../external/fprintf
+    - ../../../../external/nrf_cc310/include
+    - ../../../../external/segger_rtt
+  :support:
+    - test/support
+
+:defines:
+  # in order to add common defines:
+  #  1) remove the trailing [] from the :common: section
+  #  2) add entries to the :common: section (e.g. :test: has TEST defined)
+  :commmon: &common_defines 
+    - USE_APP_CONFIG
+    - BOARD_PCA10056
+    - CONFIG_GPIO_AS_PINRESET
+    - FLOAT_ABI_HARD
+    - INITIALIZE_USER_SECTIONS
+    - NO_VTOR_CONFIG
+    - NRF52840_XXAA
+    - OPENTHREAD_ENABLE_APPLICATION_COAP
+    - SWI_DISABLE0
+    - UART_ENABLED=0
+    - __STATIC_INLINE='static inline'
+  :test:
+    - *common_defines
+    - TEST
+  :test_preprocess:
+    - *common_defines
+    - TEST
+
+:cmock:
+  :mock_prefix: mock_
+  :when_no_prototypes: :warn
+  :enforce_strict_ordering: TRUE
+  :when_ptr: :compare_ptr
+  :plugins:
+    - :ignore
+    - :callback
+    - :expect_any_args
+  :treat_as:
+    uint8:    HEX8
+    uint16:   HEX16
+    uint32:   UINT32
+    int8:     INT8
+    bool:     UINT8
+
+:gcov:
+    :html_report_type: basic
+
+#:tools:
+# Ceedling defaults to using gcc for compiling, linking, etc.
+# As [:tools] is blank, gcc will be used (so long as it's in your system path)
+# See documentation to configure a given toolchain for use
+
+# LIBRARIES
+# These libraries are automatically injected into the build process. Those specified as
+# common will be used in all types of builds. Otherwise, libraries can be injected in just
+# tests or releases. These options are MERGED with the options in supplemental yaml files.
+:libraries:
+  :placement: :end
+  :flag: "${1}"  # or "-L ${1}" for example
+  :common: &common_libraries []
+  :test:
+    - *common_libraries
+  :release:
+    - *common_libraries
+
+:plugins:
+  :load_paths:
+    - vendor/ceedling/plugins
+  :enabled:
+    - stdout_pretty_tests_report
+    - module_generator
+    - raw_output_report
+ 
+:flags:
+  :test:
+    :compile:
+      :*:
+        - -Wno-int-to-pointer-cast 
+...

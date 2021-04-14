@@ -1,0 +1,11 @@
+<div fxLayoutAlign="center center">
+  <mat-card fxLayout="row wrap" fxLayoutAlign="space-around  center">
+    <button *ngIf="this.authService.isManager()"  mat-raised-button color="primary" (click)="downloadCredentials()"> 
+      Download Identifier
+    </button>
+    <mat-card-title *ngIf="!this.authService.isManager()" 
+      fxLayout="row wrap" fxLayoutAlign="space-around  center">
+      Not available in Demonstration Mode
+    </mat-card-title>
+  </mat-card>
+</div>

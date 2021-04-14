@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 0.0.0 (Mac OS X 10.13.6)" package="" timestamp="2018-08-15T08:06:19" id="0" hostname="galaxy-j5-2016.qf.org.qa" tests="50" errors="0" failures="0" time="2.43">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/69.0.3494.0 Safari/537.36"/>
+  </properties>
+  <testcase name="AboutComponent should create" time="0.508" classname="AboutComponent"/>
+  <testcase name="AppComponent should create the app" time="0.413" classname="AppComponent"/>
+  <testcase name="AuthenticationGuard should have a canActivate method" time="0.006" classname="AuthenticationGuard"/>
+  <testcase name="AuthenticationGuard should return true if user is authenticated" time="0.006" classname="AuthenticationGuard"/>
+  <testcase name="AuthenticationGuard should return false and redirect to login if user is not authenticated" time="0.007" classname="AuthenticationGuard"/>
+  <testcase name="AuthenticationService login should return credentials" time="0.006" classname="AuthenticationService"/>
+  <testcase name="AuthenticationService login should authenticate user" time="0.008" classname="AuthenticationService"/>
+  <testcase name="AuthenticationService login should persist credentials for the session" time="0.006" classname="AuthenticationService"/>
+  <testcase name="AuthenticationService login should persist credentials across sessions" time="0.003" classname="AuthenticationService"/>
+  <testcase name="AuthenticationService logout should clear user authentication" time="0.005" classname="AuthenticationService"/>
+  <testcase name="AuthenticationService logout should clear persisted user authentication" time="0.007" classname="AuthenticationService"/>
+  <testcase name="ApiPrefixInterceptor should prepend environment.serverUrl to the request url" time="0.007" classname="ApiPrefixInterceptor"/>
+  <testcase name="CacheInterceptor with default configuration should cache the request" time="0.007" classname="CacheInterceptor"/>
+  <testcase name="CacheInterceptor with default configuration should respond from the cache" time="0.006" classname="CacheInterceptor"/>
+  <testcase name="CacheInterceptor with default configuration should not cache the request in case of error" time="0.009" classname="CacheInterceptor"/>
+  <testcase name="CacheInterceptor with update forced configuration should force cache update" time="0.006" classname="CacheInterceptor"/>
+  <testcase name="ErrorHandlerInterceptor should catch error and call error handler" time="0.008" classname="ErrorHandlerInterceptor"/>
+  <testcase name="HttpCacheService setCacheData should set cache data" time="0.004" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService setCacheData should replace existing data" time="0.007" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService setCacheData should set cache date correctly" time="0.004" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService getCacheData should return null if no cache" time="0.003" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService getCacheData should return cached data if exists" time="0.008" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService getCacheData should return cached data with url parameters if exists" time="0.004" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService getHttpCacheEntry should return null if no cache" time="0.006" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService getHttpCacheEntry should return cached data date  if exists" time="0.005" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService clearCacheData should clear existing cache data" time="0.005" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService clearCacheData should do nothing if no cache exists" time="0.005" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService cleanCache should clear all cache if no date is specified" time="0.004" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService cleanCache should clear existing since specified date" time="0.004" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService cleanCache should not affect cache entries newer than specified date" time="0.008" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService setPersistence should clear previous cache data when persistence value change" time="0.005" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService setPersistence should persist cache to local storage" time="0.002" classname="HttpCacheService"/>
+  <testcase name="HttpCacheService setPersistence should persist cache to session storage" time="0.003" classname="HttpCacheService"/>
+  <testcase name="HttpService should use error handler, API prefix and no cache by default" time="0.006" classname="HttpService"/>
+  <testcase name="HttpService should use cache" time="0.007" classname="HttpService"/>
+  <testcase name="HttpService should skip error handler" time="0.008" classname="HttpService"/>
+  <testcase name="HttpService should not use API prefix" time="0.004" classname="HttpService"/>
+  <testcase name="TokenIn should add an Authorization header" time="0.012" classname="TokenIn"/>
+  <testcase name="Logger should create an instance" time="0" classname="Logger"/>
+  <testcase name="Logger should add a new LogOutput and receives log entries" time="0.001" classname="Logger"/>
+  <testcase name="Logger should add a new LogOutput and receives only production log entries" time="0.001" classname="Logger"/>
+  <testcase name="Route withShell should create routes as children of shell" time="0.004" classname="Route"/>
+  <testcase name="ShellComponent should create" time="0.44" classname="ShellComponent"/>
+  <testcase name="HomeComponent should create" time="0.394" classname="HomeComponent"/>
+  <testcase name="LoginComponent should create" time="0.435" classname="LoginComponent"/>
+  <testcase name="EmployeesHttpService should be created" time="0" classname="EmployeesHttpService">
+    <skipped/>
+  </testcase>
+  <testcase name="TimeseriesHttpService should be created" time="0.008" classname="TimeseriesHttpService"/>
+  <testcase name="TimeseriesHttpService should return a array of latest timeseries per employee" time="0.005" classname="TimeseriesHttpService"/>
+  <testcase name="EmployeesService should return the {a : 1}" time="0.006" classname="EmployeesService"/>
+  <testcase name="EmployeesService should return a single employee" time="0.004" classname="EmployeesService"/>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
