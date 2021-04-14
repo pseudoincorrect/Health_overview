@@ -31,12 +31,12 @@ The wristwatches are embedded devices running on batteries that sample the heart
 <br>
 
 # Wristwatches Firmware
-
+Wirstwatches' hardware consist of a custom made PCB whose central element is a nordic nrf52 module. Its firmware allows for joining an Open Thread mesh network and communicate with mesh relays. For power saving and network decluttering, the wristwatches do not contribute to the mesh, as only the relays are relaying the messages. The wristwatches sample the heart rate and skin temperature of its wearer, then apply DSP on the signals and transmit data to the network. Alternatively, they can receive notifications from the backend through the relays and gateway, and notify the user with LED and vibration motor.
 
 <br>
 
 # Relay Firmware
-The relay's hardware consists of a Nordic nrf52 development board running on a powerbank. Its firmware allows for relaying the messages from the smartwatches to the gateways and vice versa. Relays are directly responsible for the range of the network and its latency. In order to physicaly position the relay optimally, a routine is triggered by a push button that indicates the strength of the signal to the gateway (packet loss counting).
+The relay's hardware consists of a Nordic nrf52 development board running on a powerbank. Its firmware allows for relaying messages from the smartwatches to the gateways and vice versa. Relays are directly responsible for the range of the network and its latency. In order to physicaly position the relay optimally, a routine is triggered by the press of a push button that calculate and indicates the strength of the signal to the gateway (with packet loss counting).
 
 <br>
 

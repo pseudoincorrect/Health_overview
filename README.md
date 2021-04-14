@@ -5,7 +5,7 @@
 
 
 <p align="center">
-<img align="center" width=40% src="Support/readme_assets/wristwatch.jpg">
+<img align="center" width=50% src="Support/readme_assets/wristwatch.jpg">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img align="center" width=30% src="Support/readme_assets/gui2.png">
 </p>
@@ -31,7 +31,7 @@ This project, being a full IoT stack system is split into 5 parts:
 <br>
 
 ## Disclamers
-This project is not recommended for a new design starting point. We then moved to a LoraWan architecture for improved security and deployment ease. For an improved PCB design usable in a mesh network based on NRF52, <a href="https://github.com/pseudoincorrect/smart_mask/tree/master/PCB">this project</a> is more recent and has been greatly improved. 
+This project is not recommended for a new design starting point. We then moved to a LoraWan architecture for improved security and deployment ease. For an improved PCB design usable in a mesh network based on NRF52, the <a href="https://github.com/pseudoincorrect/smart_mask/tree/master/PCB">FlexySense project</a> is more recent and has been greatly improved. 
 <br>
 <br>
 Also, being one of my "junior projects", its code is far from perfect. Still, the demonstration was a success and all features were working properly, that enabled us to move on a next iteration with improved performances, reliability and security.
@@ -43,6 +43,8 @@ This project is kept as an archive (not maintened anymore), initialy on 5 differ
 
 # Printed Circuit Board
 The PCB has been designed with eagle on two layers. It includes a Nordic nrf52 module, temperature sensors, Heart-rate sensor, power supply/regulators, vibration motor, LEDs. for an improved design (but without heart rate sensor), please check the <a href="https://github.com/pseudoincorrect/smart_mask">FlexySense project</a>.
+
+PCB Cad design files <a href="https://github.com/pseudoincorrect/Health_overview/tree/master/Overview_watch_pcb/Eagle/overview">here</a>.
 
 <br>
 
@@ -71,6 +73,8 @@ Vital signs Data where gathered on the smartmatches (1), then data packets where
 
 The wristwatch Overview_firmware/ folder contain the source code for the 3 systems (smartwatches, relays and gateway). each system has one folder for its specific code and share a common/ folder for system independant code.
 <br>
+More details <a href="https://github.com/pseudoincorrect/Health_overview/tree/master/Overview_firmware">here</a>.
+<br>
 <br>
 
 
@@ -82,6 +86,7 @@ The gateway is composed of 2 devices: a NRF52 development kit and a raspberry pi
 - The NRF52 dev kit receive the data from the smartwaches and relay them to the raspberry py thanks to a serial connection. 
 - The raspberry pi handle all the cloud related operations with a Python application.
 
+More details <a href="https://github.com/pseudoincorrect/Health_overview/tree/master/Overview_gateway">here</a>.
 <br>
 
 <p align="center">
@@ -96,6 +101,8 @@ The gateway is composed of 2 devices: a NRF52 development kit and a raspberry pi
 The backend takes care of user management, devices management and health data storage.
 It follow the MEAN stack (MongoDB, Express, Angular, NodeJs). When the application was active, it was deployed on Heroku. We then moved to a dockerised application on the next iteration of this project.
 
+More details <a href="https://github.com/pseudoincorrect/Health_overview/tree/master/Overview_backend">here</a>.
+
 <br>
 <p align="center">
 <img align="center" width=50% src="Support/readme_assets/mean_stack.png">
@@ -107,6 +114,8 @@ It follow the MEAN stack (MongoDB, Express, Angular, NodeJs). When the applicati
 # Frontend Web application
 Data presentation was realized with an Angular single page application. Users could login and display the sensor of their group as well as displaying a detailed version of each smartwatch. Notification where displayed depending on the status of each sensor and notification could be sent to each wristwatch. The notification service was made with socketIo while all the data and login was made with HTTP.
  
+ More details <a href="https://github.com/pseudoincorrect/Health_overview/tree/master/Overview_frontend">here</a>.
+
 <br>
 
 <p align="center">
