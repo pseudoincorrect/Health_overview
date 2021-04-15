@@ -16,16 +16,16 @@
 The goal of Health Overview is to provide a Online (web) realtime overview of the health status of a group of individuals within a mesh RF network and send notifivations to users (watch-wearers and physicians) in case of an alarming health status, especially regarding dehydration. 
 <br>
 <br>
-This system does not replace the examination of a physician and simply provide early health update/warning depending of vital signs, for later examination by a professional.
+This system does not replace the examination of a physician and simply provides early health updates/warnings depending of vital signs, for later examination by a professional.
 <br>
 <br>
 
 # Details
 This project, being a full IoT stack system is split into 5 parts:
 - Printed Circuit Board
-- 3 Embedded Firmware (for mesh nodes, mesh relays and mesh gateway)
-- Python application for the gateway 
-- Backend stack to be deployed on a cloud provider 
+- 3 Embedded Firmware (mesh nodes, mesh relays and mesh gateway)
+- Python application for the gateway single board computer
+- Backend application to be deployed on a cloud provider 
 - Frontend Web application
 
 <br>
@@ -34,7 +34,7 @@ This project, being a full IoT stack system is split into 5 parts:
 This project is not recommended for a new design starting point. We then moved to a LoraWan architecture for improved security and deployment ease. For an improved PCB design usable in a mesh network based on NRF52, the <a href="https://github.com/pseudoincorrect/smart_mask/tree/master/PCB">FlexySense project</a> is more recent and has been greatly improved. 
 <br>
 <br>
-Also, being one of my "junior projects", its code is far from perfect. Still, the demonstration was a success and all features were working properly, that enabled us to move on a next iteration with improved performances, reliability and security.
+Also, being one of my "junior projects", its code needs improvement. Still, the demonstration was a success and all features were working properly. It enabled us to move on a next iteration with improved performances, reliability and security.
 <br>
 <br>
 This project is kept as an archive (not maintened anymore), initialy on 5 differents private repositories, they have been merged for convenience and public access.
