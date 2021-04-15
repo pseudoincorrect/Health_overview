@@ -21,7 +21,7 @@ This system does not replace the examination of a physician and simply provides 
 <br>
 
 # Details
-This project, being a full IoT stack system is split into 5 parts:
+This project being a full IoT system stack, is split into 5 parts:
 - Printed Circuit Board
 - 3 Embedded Firmware (mesh nodes, mesh relays and mesh gateway)
 - Python application for the gateway single board computer
